@@ -157,37 +157,39 @@ module.exports = {
 
         var issue = step.input('issue').first();
 
-        if (issue) {
-
-            var auth = this.authParams(dexter);
-
-            var jira = new JiraApi(auth.protocol, auth.host, auth.port, auth.user, auth.password, auth.apiVers);
-
-            var options = {
-                rejectUnauthorized: jira.strictSSL,
-                uri: jira.makeUri('/issue/' + issue + '/worklog'),
-                method: 'GET',
-                json: true
-            };
-
-            jira.doRequest(options, function(error, response, body) {
-
-                if (error)
-                    this.fail(error);
-
-                else if (response.statusCode === 200)
-                    this.complete(this.pickResult(body, globalPickResults));
-
-                else if (response.statusCode === 404)
-                    this.fail(response.statusCode + ': Returned if the issue with the given id/key does not exist or if the currently authenticated user does not have permission to view it.');
-
-                else
-                    this.fail(response.statusCode + ': Something is happened.');
-
-            }.bind(this));
-        } else {
+        if (!issue) {
 
             this.fail('A [issue] input need for this module.');
         }
+
+        var auth = this.authParams(dexter);
+
+        if (!auth)
+            return;
+
+        var jira = new JiraApi(auth.protocol, auth.host, auth.port, auth.user, auth.password, auth.apiVers);
+
+        var options = {
+            rejectUnauthorized: jira.strictSSL,
+            uri: jira.makeUri('/issue/' + issue + '/worklog'),
+            method: 'GET',
+            json: true
+        };
+
+        jira.doRequest(options, function(error, response, body) {
+
+            if (error)
+                this.fail(error);
+
+            else if (response.statusCode === 200)
+                this.complete(this.pickResult(body, globalPickResults));
+
+            else if (response.statusCode === 404)
+                this.fail(response.statusCode + ': Returned if the issue with the given id/key does not exist or if the currently authenticated user does not have permission to view it.');
+
+            else
+                this.fail(response.statusCode + ': Something is happened.');
+
+        }.bind(this));
     }
 };
