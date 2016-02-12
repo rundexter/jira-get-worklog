@@ -1,13 +1,17 @@
 {
-  "name": "jira-get-worklog",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "author": "Alexander",
-  "license": "ISC",
-  "private": true,
-  "dependencies": {
-    "jira": "^0.9.2",
-    "lodash": "^3.10.1"
-  }
+   "name": "jira-get-worklog",
+   "version": "0.0.1",
+   "description": "Returns all work logs for an issue",
+   "main": "index.js",
+   "author": "Run Dexter, Inc",
+   "license": "MIT",
+   "private": true,
+   "dependencies": {
+      "jira": "^0.9.2",
+      "lodash": "^3.10.1"
+   },
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/rundexter/jira-get-worklog"
+   }
 }
